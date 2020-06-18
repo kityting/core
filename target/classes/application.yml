@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    banner-mode: log
+  profiles:
+    active: main
+  http:
+    encoding:
+      force: true
+      enabled: true
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/baitan?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: wlt870502
+    driver-class-name: com.mysql.cj.jdbc.Driver
