@@ -41,8 +41,7 @@ public class MonitorMethodAround extends AbstractMonitorLog {
      * <code>@org.springframework.web.bind.annotation.ExceptionHandler</code>
      * <li>排除方法上有@Scheduled注解，Spring Task定时任务:
      * <code>@org.springframework.scheduling.annotation.Scheduled</code>
-     * <li>排除方法、类上有@LogUnMonitor注解，自定义Log注解:
-     * <code>@com.zhongan.flying.shark.log.annotation.LogUnMonitor</code>
+     * <li>排除方法、类上有@LogUnMonitor注解，自定义Log注解: <code>LogUnMonitor</code>
      * </ul>
      *
      * @see org.springframework.aop.aspectj.AspectJExpressionPointcut#matches(Method,
@@ -60,8 +59,7 @@ public class MonitorMethodAround extends AbstractMonitorLog {
     /**
      * 监控哪些方法
      * <ul>
-     * <li>方法、类上有@LogMethodAround，自定义Log注解:
-     * <code>@com.zhongan.flying.shark.log.annotation.LogMethodAround</code>
+     * <li>方法、类上有@LogMethodAround，自定义Log注解: <code>LogMethodAround</code>
      * </ul>
      */
     @Pointcut("@within(com.huachi.baitan.core.common.log.annotation.LogMethodAround)"// 放在class上有效，method上无效

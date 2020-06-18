@@ -45,7 +45,7 @@ public class MonitorExceptionLog {
     }
 
     /**
-     * 监控<code>com.zhongan</code>包下的非private/protected/final的方法，非AOP调用的方法也是不支持的
+     * 监控包下的非private/protected/final的方法，非AOP调用的方法也是不支持的
      */
     @Pointcut("execution(* com.huachi.*.*(..))")
     public void wantToMatch() {
