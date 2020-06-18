@@ -70,6 +70,11 @@
 			<artifactId>spring-boot-starter-jetty</artifactId>
 			<scope>dev</scope>
 		</dependency>
+		<!-- redis添加 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
 		<dependency>
 			<!-- 用于某些功能开发/测试，允许不添加此依赖，但这些功能也就无法使用 -->
 			<groupId>javax.servlet</groupId>
