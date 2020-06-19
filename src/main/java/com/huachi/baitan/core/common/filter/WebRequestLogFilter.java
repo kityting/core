@@ -8,7 +8,7 @@
 
 package com.huachi.baitan.core.common.filter;
 
-import static com.huachi.baitan.core.common.utils.SharkConstants.LOG_ID;
+import static com.huachi.baitan.core.common.constants.SharkConstants.LOG_ID;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.instrument.web.TraceFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.huachi.baitan.core.common.constants.SharkConstants;
 import com.huachi.baitan.core.common.utils.IPUtils;
-import com.huachi.baitan.core.common.utils.SharkConstants;
 
 /**
  * 类WebRequestLogFilter的实现描述：记录web请求的日志信息，设置请求的信息和 {@link SharkConstants#LOG_ID

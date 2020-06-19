@@ -33,10 +33,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.springframework.web.util.WebUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.huachi.baitan.core.common.constants.SharkConstants;
 import com.huachi.baitan.core.common.filter.WebRequestLogFilter;
 import com.huachi.baitan.core.common.log.annotation.EnableAutoLogMethod;
 import com.huachi.baitan.core.common.support.EmptyBodyCheckingHttpInputMessage;
-import com.huachi.baitan.core.common.utils.SharkConstants;
 
 /**
  * 类ControllerExceptionHandler的实现描述：全局Controller异常处理器

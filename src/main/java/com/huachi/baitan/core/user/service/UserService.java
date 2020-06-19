@@ -24,4 +24,6 @@ public interface UserService {
      * @return 成功与否
      */
     Result<Boolean> register(User user);
+
+    Result<String> login();
 }

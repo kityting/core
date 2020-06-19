@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.springframework.util.StreamUtils;
 
-import com.huachi.baitan.core.common.utils.SharkConstants;
+import com.huachi.baitan.core.common.constants.SharkConstants;
 
 /**
  * 类ReaderBodyHttpServletRequestWrapper的实现描述：HttpServletRequestWrapper包装类， 将流保存为

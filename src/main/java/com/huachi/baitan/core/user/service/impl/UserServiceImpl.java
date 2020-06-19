@@ -8,11 +8,14 @@
 
 package com.huachi.baitan.core.user.service.impl;
 
+import javax.annotation.Resource;
+
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.huachi.baitan.core.common.Result;
+import com.huachi.baitan.core.common.utils.RedisUtils;
 import com.huachi.baitan.core.user.dao.UserDao;
 import com.huachi.baitan.core.user.entity.User;
 import com.huachi.baitan.core.user.service.UserService;
@@ -25,7 +28,9 @@ import com.huachi.baitan.core.user.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserDao userDao;
+    private UserDao    userDao;
+    @Resource
+    private RedisUtils redisUtils;
 
     @Override
     public Result<Boolean> register(User user) {
@@ -39,6 +44,13 @@ public class UserServiceImpl implements UserService {
             result.setSuccess(true);
             result.setValue(true);
         }
+        return result;
+    }
+
+    @Override
+    public Result<String> login() {
+        Result<String> result = new Result<>();
+
         return result;
     }
 }

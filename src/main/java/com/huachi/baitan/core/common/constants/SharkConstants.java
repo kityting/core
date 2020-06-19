@@ -6,7 +6,7 @@
  * into with Huachi.com.
  */
 
-package com.huachi.baitan.core.common.utils;
+package com.huachi.baitan.core.common.constants;
 
 import java.nio.charset.Charset;
 
@@ -58,7 +58,7 @@ public interface SharkConstants {
     /**
      * 微信小程序登陆信息key
      */
-    String  WE_CHAT_APP_USER_SESSION = "FLYING_SHARK_WE_CHAT_APP_USER_SESSION";
+    String  WE_CHAT_APP_USER_SESSION = "BAITAN_SHARK_WE_CHAT_APP_USER_SESSION";
 
     /**
      * 众安App、H5页面登陆信息key
