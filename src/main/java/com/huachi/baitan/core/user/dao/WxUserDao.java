@@ -33,4 +33,12 @@ public interface WxUserDao {
      * @return int
      */
     Integer createSelective(WxUser condition);
+
+    /**
+     * 更新用户信息
+     *
+     * @param condition 条件
+     * @return int
+     */
+    Integer updateByPrimaryKeySelective(WxUser condition);
 }

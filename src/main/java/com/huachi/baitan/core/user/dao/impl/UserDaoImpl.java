@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer insert(User user) {
-        return userMapper.insert(user);
+        return userMapper.insertSelective(user);
     }
 
     @Override

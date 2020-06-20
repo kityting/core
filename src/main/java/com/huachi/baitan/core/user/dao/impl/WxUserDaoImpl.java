@@ -36,4 +36,9 @@ public class WxUserDaoImpl implements WxUserDao {
     public Integer createSelective(WxUser condition) {
         return wxUserMapper.insertSelective(condition);
     }
+
+    @Override
+    public Integer updateByPrimaryKeySelective(WxUser condition) {
+        return wxUserMapper.updateByPrimaryKeySelective(condition);
+    }
 }

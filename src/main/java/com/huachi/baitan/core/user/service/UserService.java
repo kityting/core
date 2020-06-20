@@ -10,7 +10,8 @@ package com.huachi.baitan.core.user.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.huachi.baitan.core.common.Result;
-import com.huachi.baitan.core.user.entity.User;
+import com.huachi.baitan.core.common.wechat.dto.WeChatLoginSession;
+import com.huachi.baitan.core.user.dto.UserPhoneDO;
 
 /**
  * 类UserService的实现描述：用户服务接口
@@ -21,10 +22,11 @@ public interface UserService {
     /**
      * 新用户注册
      * 
-     * @param user 用户信息
+     * @param params 用户信息
+     * @param loginSession 用户登录信息
      * @return 成功与否
      */
-    Result<Boolean> register(User user);
+    Result<Boolean> register(UserPhoneDO params, WeChatLoginSession loginSession);
 
     /**
      * 用户登录

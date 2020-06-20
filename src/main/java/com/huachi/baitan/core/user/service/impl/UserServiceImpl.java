@@ -22,6 +22,7 @@ import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
@@ -40,6 +41,7 @@ import com.huachi.baitan.core.common.wechat.dto.WeChatLoginSession;
 import com.huachi.baitan.core.common.wechat.dto.WeChatUserInfo;
 import com.huachi.baitan.core.user.dao.UserDao;
 import com.huachi.baitan.core.user.dao.WxUserDao;
+import com.huachi.baitan.core.user.dto.UserPhoneDO;
 import com.huachi.baitan.core.user.entity.User;
 import com.huachi.baitan.core.user.entity.WxUser;
 import com.huachi.baitan.core.user.service.UserService;
@@ -51,6 +53,7 @@ import com.huachi.baitan.core.user.service.UserService;
  */
 @Slf4j
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     private static final String LOGIN_RESPONSE_KEY = "loginResponse";
     @Autowired
@@ -69,15 +72,38 @@ public class UserServiceImpl implements UserService {
     private String              appId;
 
     @Override
-    public Result<Boolean> register(User user) {
+    public Result<Boolean> register(UserPhoneDO params, WeChatLoginSession loginSession) {
         Result<Boolean> result = new Result<>(false);
-        if (StringUtils.isBlank(user.getPhone())) {
+        if (StringUtils.isBlank(params.getPhone())) {
             TransformDTO.setErrorInfo(result, SharkCodeMsgEnum.VALUE_IS_BLANK.getCode(), "phone must not be blank");
         }
+        User user = new User();
+        Date now = new Date();
+        user.setPhone(params.getPhone());
+        user.setCreateTime(now);
+        user.setUpdateTime(now);
         Integer insertResult = userDao.insert(user);
+
         if (insertResult > 0) {
-            result.setSuccess(true);
             result.setValue(true);
+            result.setSuccess(true);
+            // 可异步操作，绑定userId和openid的关系
+            WxUser condition = new WxUser();
+            condition.setOpenid(loginSession.getOpenid());
+            List<WxUser> wxUserList = wxUserDao.findWxUserByCondition(condition);
+            if (CollectionUtils.isNotEmpty(wxUserList)) {
+                WxUser wxUser = wxUserList.get(0);
+                if (wxUser.getUserId() == null) {
+                    wxUser.setUserId(user.getId());
+                    wxUser.setUpdateTime(now);
+                    wxUserDao.updateByPrimaryKeySelective(wxUser);
+                }
+                return result;
+            }
+            condition.setUserId(user.getId());
+            condition.setCreateTime(now);
+            condition.setUpdateTime(now);
+            wxUserDao.createSelective(condition);
         }
         return result;
     }
@@ -170,15 +196,24 @@ public class UserServiceImpl implements UserService {
         // 用户信息
         JSONObject userInfo = params.getJSONObject("userInfo");
         List<WxUser> openUserList = wxUserDao.findWxUserByCondition(condition);
+
+        // 生成用户标示id
+        String hmacSha1Hex = HmacUtils.hmacSha1Hex(appId, channelType + openid);
+        String openUserId = DigestUtils.md5Hex(hmacSha1Hex.toUpperCase());
+        condition.setOpenUserId(openUserId.toUpperCase());
+        String openUserIdEncrypt = DigestUtils.md5Hex(HmacUtils.hmacSha1Hex(appId, openUserId));
+        condition.setOpenUserEncryptId(openUserIdEncrypt.toUpperCase());
+
         if (CollectionUtils.isNotEmpty(openUserList)) {
+            WxUser openUser = openUserList.get(0);
             // 可异步操作
-            if (openUserList.get(0).getUserId() != null && userInfo != null) {
+            if (openUser.getUserId() != null && userInfo != null) {
                 String nickName = userInfo.getString("nickName");
                 String name = EmojiUtils.addBackslash(nickName);
                 String headUrl = userInfo.getString("avatarUrl");
                 Integer genter = userInfo.getInteger("genter");
                 User userCondition = new User();
-                userCondition.setId(openUserList.get(0).getUserId());
+                userCondition.setId(openUser.getUserId());
                 List<User> userList = userDao.findUserByCondition(userCondition);
                 if (CollectionUtils.isNotEmpty(userList)) {
                     userCondition.setName(name);
@@ -187,7 +222,15 @@ public class UserServiceImpl implements UserService {
                     userDao.updateByPrimaryKeySelective(userCondition);
                 }
             }
-            return openUserList.get(0).getOpenUserEncryptId();
+            if (StringUtils.isNotBlank(openUser.getOpenUserEncryptId())) {
+                return openUser.getOpenUserEncryptId();
+            }
+
+            openUser.setOpenUserId(openUserId);
+            openUser.setOpenUserEncryptId(openUserIdEncrypt);
+            openUser.setUpdateTime(new Date());
+            wxUserDao.updateByPrimaryKeySelective(openUser);
+            return openUserIdEncrypt;
         }
         if (StringUtils.isNotBlank(unionid)) {
             condition.setUnionid(unionid);
@@ -198,12 +241,6 @@ public class UserServiceImpl implements UserService {
         Date now = new Date();
         condition.setCreateTime(now);
         condition.setUpdateTime(now);
-        // 生成用户标示id
-        String hmacSha1Hex = HmacUtils.hmacSha1Hex(appId, channelType + openid);
-        String openUserId = DigestUtils.md5Hex(hmacSha1Hex.toUpperCase());
-        condition.setOpenUserId(openUserId.toUpperCase());
-        String openUserIdEncrypt = DigestUtils.md5Hex(HmacUtils.hmacSha1Hex(appId, openUserId));
-        condition.setOpenUserEncryptId(openUserIdEncrypt.toUpperCase());
         wxUserDao.createSelective(condition);
         return condition.getOpenUserEncryptId();
     }
