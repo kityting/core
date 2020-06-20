@@ -10,35 +10,27 @@ package com.huachi.baitan.core.user.dao;
 
 import java.util.List;
 
-import com.huachi.baitan.core.user.entity.User;
+import com.huachi.baitan.core.user.entity.WxUser;
 
 /**
- * 类UserDao的实现描述：用户数据库接口
+ * 类WxUserDao的实现描述：微信用户信息
  *
- * @author weiliting 2020年6月17日 PM2:44:37
+ * @author weiliting 2020年6月19日 PM4:04:12
  */
-public interface UserDao {
-    /**
-     * 新增
-     *
-     * @param user 用户信息
-     * @return 是否成功
-     */
-    Integer insert(User user);
-
+public interface WxUserDao {
     /**
      * 根据条件查找用户信息
      *
-     * @param condition User
+     * @param condition WxUser
      * @return List
      */
-    List<User> findUserByCondition(User condition);
+    List<WxUser> findWxUserByCondition(WxUser condition);
 
     /**
-     * 更新用户信息
+     * 创建微信用户数据
      *
      * @param condition 条件
      * @return int
      */
-    Integer updateByPrimaryKeySelective(User condition);
+    Integer createSelective(WxUser condition);
 }

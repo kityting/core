@@ -28,4 +28,14 @@ spring:
     timeout: 0
 
 shark:
-  wechat.app:
+  wechat:
+    app:
+      enabled: true
+      configs:
+        # 摆摊小程序配置
+        baitan:
+          appId:
+          secret:
+    service:
+      code2SessionService: https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code
+      getAccessTokenService:

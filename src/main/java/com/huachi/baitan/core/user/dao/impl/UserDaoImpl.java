@@ -8,6 +8,8 @@
 
 package com.huachi.baitan.core.user.dao.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +29,17 @@ public class UserDaoImpl implements UserDao {
     private UserMapper userMapper;
 
     @Override
-    public int insert(User user) {
+    public Integer insert(User user) {
         return userMapper.insert(user);
+    }
+
+    @Override
+    public List<User> findUserByCondition(User condition) {
+        return userMapper.selectByCondition(condition);
+    }
+
+    @Override
+    public Integer updateByPrimaryKeySelective(User condition) {
+        return userMapper.updateByPrimaryKeySelective(condition);
     }
 }

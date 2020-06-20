@@ -14,41 +14,65 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- * 类UserDO的实现描述：user表
+ * 类UserDO的实现描述：wx_user表
  *
  * @author weiliting 2020年6月16日 PM5:48:35
  */
 
 @ToString(callSuper = true)
 @Data
-public class User {
+public class WxUser {
     /**
-     * Database Column Name: user.id
+     * Database Column Name: wx_user.id
      * <p>
-     * Database Column Remarks: 用户ID
+     * Database Column Remarks: 主键ID
      */
     private Long    id;
 
     /**
-     * Database Column Name: user.phone
+     * Database Column Name: wx_user.user_id
      * <p>
      * Database Column Remarks: 手机号
      */
-    private String  phone;
+    private Long    userId;
 
     /**
-     * Database Column Name: user.name
+     * Database Column Name: wx_user.openid
      * <p>
-     * Database Column Remarks: 用户名
+     * Database Column Remarks: 微信openid
      */
-    private String  name;
+    private String  openid;
 
     /**
-     * Database Column Name: user.head_url
+     * Database Column Name: wx_user.unionid
      * <p>
-     * Database Column Remarks: 头像
+     * Database Column Remarks: 微信unionid
      */
-    private String  headUrl;
+    private String  unionid;
+    /**
+     * Database Column Name: wx_user.open_user_id
+     * <p>
+     * Database Column Remarks: openUserId
+     */
+    private String  openUserId;
+    /**
+     * Database Column Name: wx_user.open_user_encrypt_id
+     * <p>
+     * Database Column Remarks: 加密openUserId
+     */
+    private String  openUserEncryptId;
+    /**
+     * Database Column Name: wx_user.channel_type
+     * <p>
+     * Database Column Remarks: 来源渠道
+     */
+    private Integer channelType;
+    /**
+     * Database Column Name: wx_user.extended_info
+     * <p>
+     * Database Column Remarks: 扩展信息
+     */
+    private String  extendedInfo;
     /**
      * Database Column Name: user.id_deleted
      * <p>

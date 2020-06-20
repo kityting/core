@@ -8,6 +8,7 @@
 
 package com.huachi.baitan.core.user.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.huachi.baitan.core.common.Result;
 import com.huachi.baitan.core.user.entity.User;
 
@@ -25,5 +26,11 @@ public interface UserService {
      */
     Result<Boolean> register(User user);
 
-    Result<String> login();
+    /**
+     * 用户登录
+     *
+     * @param params 参数
+     * @return 登录唯一标识
+     */
+    Result<String> login(JSONObject params);
 }
